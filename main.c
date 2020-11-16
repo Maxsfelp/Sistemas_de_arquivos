@@ -3,11 +3,11 @@
 #include <string.h>
 
 int main(int argc, char const *argv[]){
-	char* comando = (char*)malloc(18*sizeof(char));
+	char* comando;
 	system("clear");
 	printf("\n");
 	printf("Sistema de arquivo/comando-> ");
-	scanf("%s", comando);
-	printf("%s\n", comando);
+	scanf("%c", &comando);
+	printf("%c\n", comando);
 	return 0;
 }
