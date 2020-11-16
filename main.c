@@ -3,7 +3,7 @@
 #include <string.h>
 
 int main(int argc, char const *argv[]){
-	char* comando;
+	char comando;
 	system("clear");
 	printf("\n");
 	printf("Sistema de arquivo/comando-> ");
