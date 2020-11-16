@@ -1,3 +1,3 @@
-#Trabalho de SO
+# Trabalho de SO
 
--Segundo trabalho da disciplina de Sistemas Operacionais
+Segundo trabalho da disciplina de Sistemas Operacionais
