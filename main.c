@@ -11,7 +11,8 @@ int main(int argc, char const *argv[]){
 		printf("Fat-> ");
 		scanf("%s %s", comando, caminho);
 		if(strcmp(comando, "init") == 0)
-			printf("%s %s\n", comando, caminho);
+			init();
+			//printf("%s %s\n", comando, caminho);
 
 		if(strcmp(comando, "quit") == 0)
 			break;
