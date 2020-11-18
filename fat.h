@@ -16,4 +16,4 @@ typedef struct {
 
 int init();
 int load();
-int ls(char *caminho);
+int ls_fat(char *caminho);

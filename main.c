@@ -7,10 +7,9 @@ char *get_comando(char *entrada){
 	int tam = strlen(entrada);
 	char *comando = (char*)malloc(tam*sizeof(char));
 	for(int i = 0; i < tam; i++){
-		if(entrada[i] == ' ')
-			comando[i] = '\0';
-
 		comando[i] = entrada[i];
+		if(entrada[i] ==  ' ')
+			comando[i] = '\0';
 	}
 	return comando;
 }
@@ -37,7 +36,8 @@ int main(int argc, char const *argv[]){
 	system("clear");
 	while(1){
 		printf("Fat-> ");
-		gets(entrada);
+		scanf("%[^\n]s", entrada);
+		setbuf(stdin, NULL);
 		comando = get_comando(entrada);
 		caminho = get_caminho(entrada);
 		if(strcmp(comando, "init") == 0)
@@ -47,7 +47,7 @@ int main(int argc, char const *argv[]){
 			load();
 
 		if(strcmp(comando, "ls") == 0)
-			ls(caminho);
+			ls_fat(caminho);
 
 		if(strcmp(comando, "mkdir") == 0)
 			printf("ok\n");

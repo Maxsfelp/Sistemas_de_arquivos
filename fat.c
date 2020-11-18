@@ -34,6 +34,7 @@ int load(){
 	return 1;
 }
 
-int ls(char *caminho){
+int ls_fat(char *caminho){
+	printf("%s\n", caminho);
 	return 1;
 }
