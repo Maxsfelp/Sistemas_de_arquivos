@@ -31,8 +31,8 @@ char *get_caminho(char *entrada){
 
 int main(int argc, char const *argv[]){
 	char *entrada = (char*)malloc(200*sizeof(char));
-	char *caminho = (char*)malloc(200*sizeof(char));
-	char *comando = (char*)malloc(20*sizeof(char));
+	char *caminho;
+	char *comando;
 	system("clear");
 	while(1){
 		printf("Fat-> ");
@@ -43,32 +43,35 @@ int main(int argc, char const *argv[]){
 		if(strcmp(comando, "init") == 0)
 			init();
 
-		if(strcmp(comando, "load") == 0)
+		else if(strcmp(comando, "load") == 0)
 			load();
 
-		if(strcmp(comando, "ls") == 0)
+		else if(strcmp(comando, "ls") == 0)
 			ls_fat(caminho);
 
-		if(strcmp(comando, "mkdir") == 0)
+		else if(strcmp(comando, "mkdir") == 0)
 			printf("ok\n");
 
-		if(strcmp(comando, "create") == 0)
+		else if(strcmp(comando, "create") == 0)
 			printf("ok\n");
 
-		if(strcmp(comando, "unlink") == 0)
+		else if(strcmp(comando, "unlink") == 0)
 			printf("ok\n");
 
-		if(strcmp(comando, "write") == 0)
+		else if(strcmp(comando, "write") == 0)
 			printf("ok\n");
 
-		if(strcmp(comando, "append") == 0)
+		else if(strcmp(comando, "append") == 0)
 			printf("ok\n");
 
-		if(strcmp(comando, "read") == 0)
+		else if(strcmp(comando, "read") == 0)
 			printf("ok\n");
 
-		if(strcmp(comando, "quit") == 0)
+		else if(strcmp(comando, "quit") == 0)
 			break;
+
+		else
+			printf("Comando '%s' não encontrado\n", comando);
 	}
 
 	system("clear");
