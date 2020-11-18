@@ -2,13 +2,13 @@ CC = gcc
 
 CFLAGS = -g
 
-LDFLAGS = -lm -lpthread
+LDFLAGS = -lm -lpthread -Wall
 
 FONTES = $(wildcard *.c)
 
 OBJETOS = $(FONTES:.c=.o)
 
-EXECUTAVEL = arquivo
+EXECUTAVEL = fat
 
 all: $(EXECUTAVEL)
 
