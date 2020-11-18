@@ -71,5 +71,7 @@ int main(int argc, char const *argv[]){
 			break;
 	}
 
+	system("clear");
+
 	return 0;
 }
