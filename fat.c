@@ -1,7 +1,11 @@
 #include "fat.h"
 #include <stdio.h>
 
-uint16_t fat[4096];
+static uint16_t fat[4096];
+
+static dir_entry_t root[32];
+
+static uint8_t dadaCluster[CLUSTER_SIZE];
 
 union {
 	dir_entry_t dir[CLUSTER_SIZE / sizeof(dir_entry_t)];
@@ -33,27 +37,40 @@ int init(){
 
 	fwrite(fat, sizeof(uint16_t), 4096, fatPart);
 
-	dir_entry_t root[32];
 	memset(root, 0, 32*sizeof(dir_entry_t));
 
 	fwrite(root, sizeof(dir_entry_t), 32, fatPart);
 
-	uint8_t t[CLUSTER_SIZE];
-	memset(t, 0, CLUSTER_SIZE);
+	memset(dadaCluster, 0, CLUSTER_SIZE);
 
 	for(int i = 0; i < 4086; i++)
-		fwrite(t, 1, CLUSTER_SIZE, fatPart);
+		fwrite(dadaCluster, 1, CLUSTER_SIZE, fatPart);
 
 	fclose(fatPart);
 	return 1;
 }
 
 int load(){
-	printf("tudo certo\n");
+	FILE *fatPart = fopen("fat.part", "rb+");
+
+	if(fatPart == NULL){
+		printf("Falha ao iniciar a FAT\n");
+		return 0;
+	}
+
+	uint8_t dummy[CLUSTER_SIZE];
+
+	fread(dummy, 1, CLUSTER_SIZE,fatPart);
+
+	fread(fat, sizeof(uint16_t), 4096, fatPart);
+
+	fread(root, sizeof(dir_entry_t), 32, fatPart);
+	
+	fread(dadaCluster, 1, CLUSTER_SIZE, fatPart);
 	return 1;
 }
 
-int ls_fat(char *caminho){
+int ls(char *caminho){
 	printf("%s\n", caminho);
 	return 1;
 }

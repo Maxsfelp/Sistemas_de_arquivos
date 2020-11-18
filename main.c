@@ -47,7 +47,7 @@ int main(int argc, char const *argv[]){
 			load();
 
 		else if(strcmp(comando, "ls") == 0)
-			ls_fat(caminho);
+			ls(caminho);
 
 		else if(strcmp(comando, "mkdir") == 0)
 			printf("ok\n");
