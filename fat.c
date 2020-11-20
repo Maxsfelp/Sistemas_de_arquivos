@@ -65,7 +65,6 @@ int load(){
 	fread(fat, sizeof(uint16_t), 4096, fatPart);
 
 	fread(root, sizeof(dir_entry_t), 32, fatPart);
-	
 
 	return 1;
 }
@@ -111,7 +110,7 @@ int mkdir(char *caminho){
 		fseek(fatPart, CLUSTER_SIZE, SEEK_SET);
 		fwrite(fat, sizeof(uint16_t), 4096, fatPart);
 
-		fseek(fatPart, 8*CLUSTER_SIZE, SEEK_CUR);
+		fseek(fatPart, 9*CLUSTER_SIZE, SEEK_SET);
 		fwrite(root, sizeof(dir_entry_t), 32, fatPart);
 
 		fseek(fatPart, (b-10)*CLUSTER_SIZE, SEEK_CUR);
