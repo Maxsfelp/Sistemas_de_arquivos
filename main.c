@@ -3,6 +3,7 @@
 #include <string.h>
 #include "fat.h"
 
+// função para separar o comando da entrada inicial
 char *get_comando(char *entrada){
 	int tam = strlen(entrada);
 	char *comando = (char*)malloc(tam*sizeof(char));
@@ -14,6 +15,7 @@ char *get_comando(char *entrada){
 	return comando;
 }
 
+// função para separar o caminho da entrada inicial
 char *get_caminho(char *entrada){
 	int tam = strlen(entrada);
 	int i;
@@ -50,7 +52,7 @@ int main(int argc, char const *argv[]){
 			ls(caminho);
 
 		else if(strcmp(comando, "mkdir") == 0)
-			printf("ok\n");
+			mkdir(caminho);
 
 		else if(strcmp(comando, "create") == 0)
 			printf("ok\n");

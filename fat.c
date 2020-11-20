@@ -60,17 +60,79 @@ int load(){
 
 	uint8_t dummy[CLUSTER_SIZE];
 
-	fread(dummy, 1, CLUSTER_SIZE,fatPart);
+	fread(dummy, 1, CLUSTER_SIZE, fatPart);
 
 	fread(fat, sizeof(uint16_t), 4096, fatPart);
 
 	fread(root, sizeof(dir_entry_t), 32, fatPart);
-	
-	fread(dadaCluster, 1, CLUSTER_SIZE, fatPart);
+	fclose(fatPart);
+	return 1;
+}
+
+int mkdir(char *caminho){
+	int barra = 0;
+	int i, b;
+	int tam = strlen(caminho);
+	dir_entry_t newDir[32];
+	memset(newDir, 0, 32*sizeof(dir_entry_t));
+
+	FILE *fatPart = fopen("fat.part", "rb+");
+
+	if(fatPart == NULL){
+		printf("Falha ao iniciar a FAT\n");
+		return 0;
+	}
+
+	for(int j = 0; j < tam; j++)
+		if(caminho[j] == '/')
+			barra++;
+
+	if(barra <= 1){//diretorio root
+		for(i = 0; i < 32; i++)
+			if(root[i].first_block == 0)
+				break;
+		
+		char *nome = (char*)malloc(tam*sizeof(char));
+		for(int j = 1; j <= tam || j < 19; j++)
+			nome[j-1] = caminho[j];
+
+		strcpy(root[i].filename, nome);
+		root[i].attributes = 1;
+
+		for(b = 10; b < 4096; b++)
+			if(fat[b] == 0x0000)
+				break;
+
+		root[i].first_block = b;
+
+		fseek(fatPart, 9*CLUSTER_SIZE, SEEK_SET);
+
+		fwrite(root, sizeof(dir_entry_t), 32, fatPart);
+
+		fseek(fatPart, (b-10)*CLUSTER_SIZE, SEEK_CUR);
+
+		fwrite(newDir, sizeof(dir_entry_t), 32, fatPart);
+
+	}else{
+		
+	}
+	fclose(fatPart);
 	return 1;
 }
 
 int ls(char *caminho){
-	printf("%s\n", caminho);
+	int barra = 0;
+
+	for(int j = 0; j < strlen(caminho); j++)
+		if(caminho[j] == '/')
+			barra++;
+
+	if(barra <= 1){
+		printf("Root\n");
+		for(int i = 0; i < 32; i++){
+			if(root[i].first_block != 0)
+				printf(" %s\n", root[i].filename);
+		}
+	}
 	return 1;
 }

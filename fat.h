@@ -16,4 +16,5 @@ typedef struct {
 
 int init();
 int load();
+int mkdir(char *caminho);
 int ls(char *caminho);
