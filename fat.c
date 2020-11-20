@@ -65,7 +65,8 @@ int load(){
 	fread(fat, sizeof(uint16_t), 4096, fatPart);
 
 	fread(root, sizeof(dir_entry_t), 32, fatPart);
-	fclose(fatPart);
+	
+
 	return 1;
 }
 
@@ -100,21 +101,34 @@ int mkdir(char *caminho){
 		root[i].attributes = 1;
 
 		for(b = 10; b < 4096; b++)
-			if(fat[b] == 0x0000)
+			if(fat[b] == 0x0000){
+				fat[b] = 0xfffe;
 				break;
+			}
 
 		root[i].first_block = b;
 
-		fseek(fatPart, 9*CLUSTER_SIZE, SEEK_SET);
+		fseek(fatPart, CLUSTER_SIZE, SEEK_SET);
+		fwrite(fat, sizeof(uint16_t), 4096, fatPart);
 
+		fseek(fatPart, 8*CLUSTER_SIZE, SEEK_CUR);
 		fwrite(root, sizeof(dir_entry_t), 32, fatPart);
 
 		fseek(fatPart, (b-10)*CLUSTER_SIZE, SEEK_CUR);
-
 		fwrite(newDir, sizeof(dir_entry_t), 32, fatPart);
 
 	}else{
-		
+		int k = 0;
+		char nome[20][18];
+
+		for(int j = 0; j < barra; j++){
+			int w = 0;
+			for(k = k+1; k < tam; k++){
+				if(caminho[k] == '/') break;
+				nome[j][w] = caminho[k];
+				w++;
+			}
+		}
 	}
 	fclose(fatPart);
 	return 1;
@@ -122,6 +136,7 @@ int mkdir(char *caminho){
 
 int ls(char *caminho){
 	int barra = 0;
+	int tam = strlen(caminho);
 
 	for(int j = 0; j < strlen(caminho); j++)
 		if(caminho[j] == '/')
@@ -132,6 +147,18 @@ int ls(char *caminho){
 		for(int i = 0; i < 32; i++){
 			if(root[i].first_block != 0)
 				printf(" %s\n", root[i].filename);
+		}
+	}else{
+		int k = 0;
+		char nome[20][18];
+
+		for(int j = 0; j < barra; j++){
+			int w = 0;
+			for(k = k+1; k < tam; k++){
+				if(caminho[k] == '/') break;
+				nome[j][w] = caminho[k];
+				w++;
+			}
 		}
 	}
 	return 1;
